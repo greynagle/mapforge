@@ -39,7 +39,7 @@ export default class MapGrid extends Component {
                         min="1"
                         max="100"
                         defaultValue="0"
-                        className="slider"
+                        className="slider tree-slider"
                         id="trees"
                     />
                 </div>
@@ -50,7 +50,7 @@ export default class MapGrid extends Component {
                         min="1"
                         max="100"
                         defaultValue="0"
-                        className="slider"
+                        className="slider city-slider"
                         id="town"
                     />
                 </div>
@@ -60,7 +60,7 @@ export default class MapGrid extends Component {
                 ></div>
                 <div>
                     <button className="btn btn-secondary" type="submit">
-                        Update
+                        Random
                     </button>
 					<button className="btn btn-secondary" type="reset">
                         Reset

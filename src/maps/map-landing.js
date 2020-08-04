@@ -12,7 +12,7 @@ import {
 // import AsmTable from "./AsmTable";
 import "./maps.css";
 import ApiContext from "../ApiContext";
-import MapGrid from "./map-grid"
+import MapGrid from "./map-grid";
 // import AsmContents from "./AsmContents";
 
 export default class Maps extends Component {
@@ -29,10 +29,10 @@ export default class Maps extends Component {
                 <>
                     <h2>Generator</h2>
                     <p className="info">
-                        Use the sliders to set preferences for a random map.
-                        Once you have a map, click on tiles to cycle through the
-                        different terrain types. Be sure to save the map to
-                        reference later when you're happy with it!
+                        Use the proportional sliders to set a random map seed.
+                        Click on tiles to cycle through the different terrain
+                        types. Be sure to export the map when you're happy with
+                        it!
                     </p>
                 </>
             );
@@ -54,7 +54,7 @@ export default class Maps extends Component {
         return (
             <div className="sub-header">
                 <Links />
-				<MapGrid />
+                <MapGrid />
             </div>
         );
     }

@@ -27,8 +27,8 @@ class App extends Component {
             <>
                 <Route exact path="/" component={Landing} />
                 <Route path="/maps" component={Maps} />
-				<Route path="/login" component={Login} />
-				<Route path="/account" component={Account} />
+                <Route path="/login" component={Login} />
+                <Route path="/account" component={Account} />
             </>
         );
     }
@@ -53,16 +53,16 @@ class App extends Component {
                         <h1>
                             <Link to="/">MapForge</Link>{" "}
                         </h1>
+                        <ul className="top-link-list">
+                            <li className="top-link">
+                                <Link to={`/maps`}>Maps</Link>
+                            </li>
+                            <li className="top-link">
+                                <Link to={`/login`}>Login</Link>(
+                                <Link to={`/account`}>Account</Link>)
+                            </li>
+                        </ul>
                     </header>
-					<ul className="top-link-list">
-                        <li className="top-link">
-                            <Link to={`/maps`}>Maps</Link>
-                        </li>
-                        <li className="top-link">
-                            <Link to={`/login`}>Login</Link>
-							(<Link to={`/account`}>Account</Link>)
-                        </li>
-                    </ul>
                     <main className="App_main">{this.renderMainRoutes()}</main>
                 </div>
             </ApiContext.Provider>
