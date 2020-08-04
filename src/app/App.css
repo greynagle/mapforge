@@ -1,6 +1,14 @@
 * {
     text-align: center;
     box-sizing: border-box;
+	font-family: 'Cormorant SC';
+}
+
+@font-face{
+	font-family: 'Cormorant SC';
+	font-style: normal;
+	font-weight: 400;;
+	src: url('https://fonts.googleapis.com/css?family=Cormorant SC') format('woff')
 }
 
 .html {
