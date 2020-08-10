@@ -1,72 +1,110 @@
 import React, { Component } from "react";
 import ApiContext from "../ApiContext";
 
+import PercentSliders from "./inputs/slider.js";
+import Grid from "./grid";
+import { generateRiver, generateTreeFill } from "./helpers/random-functions";
+
 export default class MapGrid extends Component {
-    static defaultProps = {};
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
     static contextType = ApiContext;
 
-    // a function to generate the table displayed in the "machines" tab
+    handleChange = (e) => {
+        this.setState({
+            [e.target.id]: e.target.value,
+        });
+    };
+
+    // resetting the inputs and grid size
+    reset = () => {
+        let e = { target: { value: 9 } };
+        this.context.changeHeight(e);
+        this.context.changeWidth(e);
+
+        // updating the state doesn't seem to force an
+        // update of the values once default is changed.
+        // Resetting inputs separately
+        document.getElementById("width").value = 9;
+        document.getElementById("height").value = 9;
+    };
+
+    // randomizes the grid
+    randomize = () => {
+        // generating the river
+        const path = generateRiver(this.context.height, this.context.width);
+
+        let mapStringArr = "b"
+            .repeat(this.context.height * this.context.width)
+            .split("");
+
+        // adding the river tiles
+        path.forEach((i) => {
+            mapStringArr[i] = "w";
+        });
+
+        // fills in the tiles currently unfilled by water, with some spacing
+        mapStringArr = generateTreeFill(this.context.width, mapStringArr, path);
+
+        this.context.changeString(mapStringArr.join(""));
+    };
+
     render() {
-        function grid() {
-            let n = 16,
-                s = [];
-
-            for (let i = 0; i < n; i++) {
-                s += '<div class="row">';
-                for (let j = 0; j < n; j++) s += `<div class="cell"> </div>`;
-                s += "</div>";
-            }
-            return s.toString();
-        }
-
         return (
             <form className="grid" onSubmit={this.handleSubmit}>
-                <div className="slidecontainer">
-                    <label htmlFor="Water">Water</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="100"
-                        defaultValue="0"
-                        className="slider"
-                        id="water"
-                    />
-                </div>
-                <div className="slidecontainer">
-                    <label htmlFor="trees">Trees</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="100"
-                        defaultValue="0"
-                        className="slider tree-slider"
-                        id="trees"
-                    />
-                </div>
-                <div className="slidecontainer">
-                    <label htmlFor="town">Town</label>
-                    <input
-                        type="range"
-                        min="1"
-                        max="100"
-                        defaultValue="0"
-                        className="slider city-slider"
-                        id="town"
-                    />
-                </div>
-                <div
-                    id="container"
-                    dangerouslySetInnerHTML={{ __html: grid() }}
-                ></div>
+                <label htmlFor="width">Width: </label>
+                <input
+                    className="new-inputs"
+                    type="number"
+                    name="width"
+                    id="width"
+                    min="1"
+                    step="1"
+                    defaultValue={this.context.width}
+                    onChange={(e) => this.context.changeWidth(e)}
+                    autoComplete="off"
+                    required
+                />
+                <label htmlFor="height">Height: </label>
+                <input
+                    className="new-inputs"
+                    type="number"
+                    name="height"
+                    id="height"
+                    min="1"
+                    step="1"
+                    defaultValue={this.context.height}
+                    onChange={(e) => this.context.changeHeight(e)}
+                    autoComplete="off"
+                    required
+                />
+                <br />
+                <PercentSliders />
+                <Grid
+                    mapString={this.context.mapString}
+                    width={this.context.width}
+                    height={this.context.height}
+                />
+
                 <div>
-                    <button className="btn btn-secondary" type="submit">
+                    <button
+                        className="btn btn-secondary"
+                        type="button"
+                        onClick={() => this.randomize()}
+                    >
                         Random
                     </button>
-					<button className="btn btn-secondary" type="reset">
+                    <button
+                        className="btn btn-secondary"
+                        type="button"
+                        onClick={() => this.reset()}
+                    >
                         Reset
                     </button>
-					<button className="btn btn-secondary" type="button">
-                        Export
+                    <button className="btn btn-secondary" type="button">
+                        Save
                     </button>
                 </div>
             </form>

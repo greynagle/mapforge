@@ -127,7 +127,7 @@ export default class Login extends Component {
             <div className="sub-header">
                 <form className="login_form" onSubmit={this.handleSubmit}>
                     <div>
-                        <label htmlFor="username">Username:</label>
+                        <label htmlFor="username">Username: </label>
                         <input
                             className="login"
                             type="text"
@@ -140,7 +140,7 @@ export default class Login extends Component {
                     </div>
                     <br />
                     <div>
-                        <label htmlFor="password">Password:</label>
+                        <label htmlFor="password">Password: </label>
                         <input
                             className="login"
                             type="password"
