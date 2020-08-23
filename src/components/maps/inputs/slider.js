@@ -1,5 +1,5 @@
 import React from "react";
-import ApiContext from "../../ApiContext";
+import ApiContext from "../../../ApiContext";
 
 class PercentSliders extends React.Component {
     constructor(props) {
@@ -12,10 +12,9 @@ class PercentSliders extends React.Component {
         const values = Object.entries(this.context.values);
 
         const keys = values.map((val) => val[0]);
-        const vals = values.map((val) => val[1]);
 
         return keys.map((item, ind) => (
-            <div className="sliderSet">
+            <div key={`${ind}div`} className="sliderSet">
                 <span className="sliderBox">
                     <label key={`${ind}Sli`} htmlFor={`${item}Input`}>
                         {item}
@@ -24,12 +23,12 @@ class PercentSliders extends React.Component {
                         type="range"
                         className={`slider ${item}-slider`}
                         key={item}
-                        step="0.1"
+                        step={`${1/(this.context.height*this.context.width)}`}
                         name={item}
                         id={item}
                         min={0}
                         value={this.context.values[item]}
-                        max={100}
+                        max={1}
                         onChange={(e) => this.context.changeSlider(e)}
                     />
                 </span>

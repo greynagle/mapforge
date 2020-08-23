@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import ApiContext from "../ApiContext";
+import ApiContext from "../../ApiContext";
+import config from "../../config";
+import TokenService from "../../services/token-service";
 
 import PercentSliders from "./inputs/slider.js";
 import Grid from "./grid";
@@ -21,6 +23,7 @@ export default class MapGrid extends Component {
     // resetting the inputs and grid size
     reset = () => {
         let e = { target: { value: 9 } };
+        this.context.changeName({ target: { value: "" } });
         this.context.changeHeight(e);
         this.context.changeWidth(e);
 
@@ -29,6 +32,7 @@ export default class MapGrid extends Component {
         // Resetting inputs separately
         document.getElementById("width").value = 9;
         document.getElementById("height").value = 9;
+        document.getElementById("name").value = "";
     };
 
     // randomizes the grid
@@ -48,12 +52,56 @@ export default class MapGrid extends Component {
         // fills in the tiles currently unfilled by water, with some spacing
         mapStringArr = generateTreeFill(this.context.width, mapStringArr, path);
 
+        mapStringArr[Math.floor(Math.random() * mapStringArr.length)] = "c";
+
         this.context.changeString(mapStringArr.join(""));
+    };
+
+    save = () => {
+        //
+        const token = TokenService.getAuthToken();
+        // console.log(token);
+        if (token) {
+            if (this.context.name != "") {
+                return fetch(`${config.API_ENDPOINT}/maps`, {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        token,
+                        map_name: this.context.name,
+                        map_string: this.context.mapString,
+                        width: this.context.width,
+                    }),
+                }).then((res) =>
+                    !res.ok
+                        ? res.json().then((e) => Promise.reject(e))
+                        : res.json()
+                );
+            } else {
+				alert('Map name required')
+			}
+        } else {
+            alert("Must be logged in to save files");
+        }
     };
 
     render() {
         return (
             <form className="grid" onSubmit={this.handleSubmit}>
+                <label htmlFor="name">Name: </label>
+                <input
+                    className="new-inputs"
+                    type="text"
+                    name="name"
+                    id="name"
+                    defaultValue={this.context.name}
+                    onChange={(e) => this.context.changeName(e)}
+                    autoComplete="off"
+                    required
+                />
+                <br />
                 <label htmlFor="width">Width: </label>
                 <input
                     className="new-inputs"
@@ -103,7 +151,11 @@ export default class MapGrid extends Component {
                     >
                         Reset
                     </button>
-                    <button className="btn btn-secondary" type="button">
+                    <button
+                        className="btn btn-secondary"
+                        type="button"
+                        onClick={() => this.save()}
+                    >
                         Save
                     </button>
                 </div>

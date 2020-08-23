@@ -1,24 +1,30 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
-import config from "../config";
+import { Route } from "react-router-dom";
+// import config from "../config";
 import "./App.css";
+import Header from "../Header/Header";
+import LoginPage from "../../routes/LoginPage/LoginPage";
+import RegistrationPage from "../../routes/RegistrationPage/RegistrationPage";
+import AccountPage from "../../routes/AccountPage/AccountPage";
+import PublicOnlyRoute from "../Utils/PublicOnlyRoute";
+import PrivateRoute from "../Utils/PrivateRoute";
 import Landing from "../landing/landing";
-import Account from "../account/account";
-import Login from "../account/login";
 import Maps from "../maps/map-landing";
-import ApiContext from "../ApiContext";
+import ApiContext from "../../ApiContext";
 
-import { growRiver, shrinkTrees } from "./helpers/slider-functions";
+import { growRiver, shrinkTrees, growCity } from "./helpers/slider-functions";
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: "",
             width: 9,
             height: 9,
             mapString: "b".repeat(81),
-            values: { water: 50.0, tree: 50.0, city: 0.0 },
+            values: { water: 0.5, tree: 0.5, city: 0.5 },
             fix: { water: false, tree: false, city: false },
+            flag: " ",
         };
     }
 
@@ -32,21 +38,35 @@ class App extends Component {
             <>
                 <Route exact path="/" component={Landing} />
                 <Route path="/maps" component={Maps} />
-                <Route path="/login" component={Login} />
-                <Route path="/account" component={Account} />
+                <PublicOnlyRoute path={"/login"} component={LoginPage} />
+                <PublicOnlyRoute
+                    path={"/register"}
+                    component={RegistrationPage}
+                />
+                <PrivateRoute path={"/account"} component={AccountPage} />
             </>
         );
     }
+
+    handleChangeName = (e) => {
+        this.setState({
+            name: e.target.value,
+        });
+    };
 
     // the handles, to be passed to the context
     handleChangeString = (mapString) => {
         // setting the sliders to have the proper fractional values
         const waterPercentage = (
-            (100 * mapString.split("").filter((i) => i == "w").length) /
+            mapString.split("").filter((i) => i === "w").length /
             mapString.length
         ).toFixed(1);
         const treePercentage = (
-            (100 * mapString.split("").filter((i) => i == "t").length) /
+            mapString.split("").filter((i) => i === "t").length /
+            mapString.length
+        ).toFixed(1);
+        const cityPercentage = (
+            mapString.split("").filter((i) => i === "c").length /
             mapString.length
         ).toFixed(1);
 
@@ -56,7 +76,7 @@ class App extends Component {
                 values: {
                     water: waterPercentage,
                     tree: treePercentage,
-                    city: prevstate.values.city,
+                    city: cityPercentage,
                 },
             };
         });
@@ -83,21 +103,28 @@ class App extends Component {
         const sliderValue = e.target.value;
         let mapString;
 
-        if (name == "water") {
+        if (name === "water") {
             mapString = growRiver(
                 this.state.height,
                 this.state.width,
                 this.state.mapString.split(""),
                 sliderValue
             );
-        } else if (name == "tree") {
+        } else if (name === "tree") {
             mapString = shrinkTrees(
+                this.state.height,
+                this.state.width,
                 this.state.mapString.split(""),
                 sliderValue
             );
         } else {
-
-		}
+            mapString = growCity(
+                this.state.height,
+                this.state.width,
+                this.state.mapString.split(""),
+                sliderValue
+            );
+        }
 
         if (!this.state.fix[name]) {
             this.setState((prevstate) => {
@@ -113,8 +140,6 @@ class App extends Component {
         let name = e.target.id;
         let value = e.target.checked;
 
-        console.log("name", name, "value", value);
-
         this.setState((prevstate) => {
             return {
                 fix: { ...prevstate.fix, [name]: value },
@@ -122,36 +147,57 @@ class App extends Component {
         });
     };
 
+    resetState = () => {
+        this.setState({
+            name: "",
+            width: 9,
+            height: 9,
+            mapString: "b".repeat(81),
+            values: { water: 0.5, tree: 0.5, city: 0.5 },
+            fix: { water: false, tree: false, city: false },
+            flag: " ",
+        });
+    };
+
+    handleChangeFlag = (e) => {
+        this.setState((prevstate) => {
+            return prevstate.flag !== "  " ? { flag: "  " } : { flag: " " };
+        });
+        this.resetState();
+    };
+
+    handleAccountLinkClick = (mapVals) => {
+        const { width } = mapVals;
+        const mapString = mapVals.map_string;
+        const height = mapString.length / width;
+        this.setState({ width, height, mapString });
+    };
+
     render() {
         const value = {
+            name: this.state.name,
             width: this.state.width,
             height: this.state.height,
             mapString: this.state.mapString,
             values: this.state.values,
             fix: this.state.fix,
+            flag: this.state.flag,
+            changeName: this.handleChangeName,
             changeWidth: this.handleChangeWidth,
             changeHeight: this.handleChangeHeight,
             changeString: this.handleChangeString,
             changeSlider: this.handleChangeSlider,
             changeFix: this.handleChangeFix,
+            changeFlag: this.handleChangeFlag,
+            clickAccountLink: this.handleAccountLinkClick,
         };
         return (
             <ApiContext.Provider value={value}>
                 <div className="jumbotron">
                     <nav className="App_nav"></nav>
                     <header className="App_header">
-                        <h1>
-                            <Link to="/">MapForge</Link>{" "}
-                        </h1>
-                        <ul className="top-link-list">
-                            <li className="top-link">
-                                <Link to={`/maps`}>Maps</Link>
-                            </li>
-                            <li className="top-link">
-                                <Link to={`/login`}>Login</Link>(
-                                <Link to={`/account`}>Account</Link>)
-                            </li>
-                        </ul>
+                        {this.state.flag}
+                        <Header />
                     </header>
                     <main className="App_main">{this.renderMainRoutes()}</main>
                 </div>

@@ -1,10 +1,7 @@
 import React from "react";
-import ApiContext from "../ApiContext";
+import ApiContext from "../../ApiContext";
 
 export default class Grid extends React.Component {
-    constructor(props) {
-        super(props);
-    }
     static contextType = ApiContext;
     state = {};
 
@@ -73,7 +70,7 @@ export default class Grid extends React.Component {
                 );
 
                 if ((index + 1) % this.props.width === 0) {
-                    s.push(<br />);
+                    s.push(<br key={`${index}br`} />);
                 }
             }
             return s;

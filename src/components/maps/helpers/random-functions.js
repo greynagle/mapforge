@@ -10,7 +10,7 @@ export function edgeCheck(height, width, index) {
     // right edge, top edge, and bottom edge checks
     let indNum = Number(index);
     if (
-        (indNum + 1) % width == 0 ||
+        (indNum + 1) % width === 0 ||
         indNum - width < 0 ||
         indNum + width > width * height
     ) {
@@ -30,11 +30,6 @@ function up(width) {
 
 function down(width) {
     return width;
-}
-
-function left() {
-    // adding for trees and city, might be useful
-    return -1;
 }
 
 // weighted random function to make the river tend right
@@ -100,9 +95,8 @@ function spacingFilter(width, cellVal, checkPath) {
         cellVal - 1 + width,
         cellVal - 1 - width,
     ].forEach((testVal, testIndex) => {
-        // console.log('test', test)
-        if (testVal % width != 0 && testVal % width != width - 1) {
-            if (checkPath.indexOf(testVal) != -1) {
+        if (testVal % width !== 0 && testVal % width !== width - 1) {
+            if (checkPath.indexOf(testVal) !== -1) {
                 return (truthiness = {
                     ...truthiness,
                     [`Cell ${cellVal} test ${testIndex}`]: false,

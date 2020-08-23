@@ -1,14 +1,8 @@
 import React, { Component } from "react";
-import {
-    Route,
-    Link,
-    Switch,
-    useParams,
-    useRouteMatch,
-} from "react-router-dom";
+
 
 import "./maps.css";
-import ApiContext from "../ApiContext";
+import ApiContext from "../../ApiContext";
 import MapGrid from "./map-grid";
 
 export default class Maps extends Component {
