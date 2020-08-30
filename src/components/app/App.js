@@ -167,10 +167,11 @@ class App extends Component {
     };
 
     handleAccountLinkClick = (mapVals) => {
-        const { width } = mapVals;
+		const name = mapVals.map_name
+		const { width } = mapVals;
         const mapString = mapVals.map_string;
         const height = mapString.length / width;
-        this.setState({ width, height, mapString });
+        this.setState({ name, width, height, mapString });
     };
 
     render() {

@@ -10,9 +10,10 @@ import { generateRiver, generateTreeFill } from "./helpers/random-functions";
 export default class MapGrid extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
     }
     static contextType = ApiContext;
+
+    state = { error: null, saved: null };
 
     handleChange = (e) => {
         this.setState({
@@ -58,18 +59,16 @@ export default class MapGrid extends Component {
     };
 
     save = () => {
-        //
         const token = TokenService.getAuthToken();
-        // console.log(token);
         if (token) {
             if (this.context.name != "") {
                 return fetch(`${config.API_ENDPOINT}/maps`, {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({
-                        token,
                         map_name: this.context.name,
                         map_string: this.context.mapString,
                         width: this.context.width,
@@ -78,18 +77,25 @@ export default class MapGrid extends Component {
                     !res.ok
                         ? res.json().then((e) => Promise.reject(e))
                         : res.json()
-                );
+                ).then(
+                this.setState({ error: null, saved: "Saved successfully!"})
+				);
             } else {
-				alert('Map name required')
-			}
+                this.setState({ saved: null, error: "Map must be named to be saved" });
+            }
         } else {
-            alert("Must be logged in to save files");
+            this.setState({ saved: null, error: "User must be logged in to save a map" });
         }
     };
 
     render() {
+        const { error, saved } = this.state;
         return (
             <form className="grid" onSubmit={this.handleSubmit}>
+                <div role="alert">
+                    {error && <p className="red">{error}</p>}
+                </div>
+                <div role="alert">{saved && <p>{saved}</p>}</div>
                 <label htmlFor="name">Name: </label>
                 <input
                     className="new-inputs"
@@ -138,21 +144,21 @@ export default class MapGrid extends Component {
 
                 <div>
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary random"
                         type="button"
                         onClick={() => this.randomize()}
                     >
                         Random
                     </button>
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary reset"
                         type="button"
                         onClick={() => this.reset()}
                     >
                         Reset
                     </button>
                     <button
-                        className="btn btn-secondary"
+                        className="btn btn-secondary save"
                         type="button"
                         onClick={() => this.save()}
                     >

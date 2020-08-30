@@ -99,16 +99,15 @@ span.fix > label {
 
 span.sliderBox > label {
     width: 36px;
-}
-
-.fix {
+    margin-left: 0%;
+    text-align: right;
 }
 
 header > h1 > a {
     text-decoration-line: none;
 }
 
-a {
+.account-link a {
     color: #000000;
 }
 
@@ -132,8 +131,13 @@ td {
     border: 1px solid black;
 }
 
-label {
+/* label {
     margin-left: 5vw;
+} */
+
+.red {
+    background-color: #ca1551;
+    color: white;
 }
 
 .new-inputs {
@@ -177,8 +181,8 @@ label {
     display: block;
     width: 37vw;
     margin-top: 0px;
-	margin-left:auto;
-	margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* button yoink */
@@ -312,41 +316,15 @@ label {
     border-color: #555 transparent transparent transparent;
 }
 
-/* Toggle this class - hide and show the popup */
-.popup .show {
-    visibility: visible;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
 @media only screen and (min-width: 768px) {
     .prt_form > div > label {
         margin-left: 20vw;
     }
 
-    .new-inputs {
+    /* .new-inputs {
         margin-right: 20vw;
         max-width: 350px;
-    }
+    } */
 
     .Button__Array {
         margin-right: 20vw;
@@ -355,6 +333,13 @@ label {
     div.sub-header > ul {
         padding-left: 20vw;
         padding-right: 20vw;
+    }
+
+    span.sliderBox {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 190px;
     }
 
     span.info {

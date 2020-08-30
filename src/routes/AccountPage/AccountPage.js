@@ -7,6 +7,7 @@ import ApiContext from "../../ApiContext";
 
 export default class AccountPage extends Component {
     static defaultProps = {
+        location: {},
         history: {
             push: () => {},
         },
@@ -32,27 +33,48 @@ export default class AccountPage extends Component {
             });
     }
 
-    handleClick(e) {
-		const mapLink = this.state.maps.find(val => val.map_name === e.target.text)
-		this.context.clickAccountLink(mapLink)
-	};
+    handleClick = (e) => {
+        const mapLink = this.state.maps.find(
+            (val) => val.map_name === e.target.text
+        );
+        this.context.clickAccountLink(mapLink);
+    };
+
+    handleDelete = (e) => {
+        AccountService.deleteMap(e.target.id);
+        const newMaps = this.state.maps.filter(
+            (val) => val.map_name !== e.target.id
+        );
+        this.setState({ maps: newMaps });
+    };
 
     render() {
         return (
             <Section className="AccountPage sub-header">
                 <h2>Welcome back, {this.state.nickname}!</h2>
-                <h3>Saved</h3>
+                <h3>Saved maps</h3>
                 <ul>
                     {this.state.maps.map((val) => {
                         return (
-                            <li className="account-link" key={`li ${val.map_name}`}>
+                            <li
+                                className="account-link"
+                                key={`li ${val.map_name}`}
+                            >
                                 <Link
-                                    key={`${val.map_name}`}
-                                    to={`/maps/${val.map_name}`}
+                                    key={`Link ${val.map_name}`}
+                                    to={`/maps`}
                                     onClick={(e) => this.handleClick(e)}
                                 >
                                     {val.map_name}
                                 </Link>
+                                <button
+                                    className="btn btn-secondary"
+                                    type="button"
+                                    id={`${val.map_name}`}
+                                    onClick={(e) => this.handleDelete(e)}
+                                >
+                                    Delete
+                                </button>
                             </li>
                         );
                     })}

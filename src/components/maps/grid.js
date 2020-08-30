@@ -6,36 +6,36 @@ export default class Grid extends React.Component {
     state = {};
 
     replaceAt = (id, newVal) => {
-		let mapArr = this.context.mapString.split('')
-		mapArr[id] = newVal
-		return mapArr.join('')
-	}
-	
-	handleClick = (e) => {
+        let mapArr = this.context.mapString.split("");
+        mapArr[id] = newVal;
+        return mapArr.join("");
+    };
+
+    handleClick = (e) => {
         let newClass;
-		let newMap;
+        let newMap;
         switch (e.target.className.split(" ")[1]) {
             case "blank":
                 newClass = "water";
-				newMap = this.replaceAt(e.target.id, 'w')
+                newMap = this.replaceAt(e.target.id, "w");
                 break;
             case "water":
                 newClass = "tree";
-				newMap = this.replaceAt(e.target.id, 't')
+                newMap = this.replaceAt(e.target.id, "t");
                 break;
             case "tree":
                 newClass = "city";
-				newMap = this.replaceAt(e.target.id, 'c')
+                newMap = this.replaceAt(e.target.id, "c");
                 break;
             case "city":
                 newClass = "blank";
-				newMap = this.replaceAt(e.target.id, 'b')
+                newMap = this.replaceAt(e.target.id, "b");
                 break;
             default:
                 break;
         }
         e.target.className = `cell ${newClass}`;
-		this.context.changeString(newMap)
+        this.context.changeString(newMap);
     };
 
     render() {
