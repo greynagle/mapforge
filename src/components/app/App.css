@@ -140,6 +140,27 @@ td {
     color: white;
 }
 
+li.account-link {
+    display: flex;
+	justify-content: space-around;
+	align-items: center;
+    border: 1px solid black;
+    border-radius: 0.25rem;
+	height:40px;
+	margin-bottom:1rem;
+}
+li.account-link>a{
+	width:50px;
+}
+
+li.account-link > button.btn {
+    margin-top: auto;
+    margin-bottom: auto;
+    height: 30px;
+    padding-top: auto;
+    padding-bottom: auto;
+}
+
 .new-inputs {
     margin-right: 10px;
     width: 4rem;
