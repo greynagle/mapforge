@@ -9,6 +9,10 @@ function riverRand(height, width, mapArr, direction) {
         i = mapArr.indexOf("w", i) + 1;
     }
 
+	if (waterIndices.length === 0) {
+        waterIndices = [Math.floor(Math.random() * mapArr.length)];
+    }
+
     let blankIndices = [];
 
     waterIndices.forEach((i) => {
@@ -182,6 +186,7 @@ function cityRand(height, width, mapArr, direction) {
         [i + 1, i - 1, i + width, i - width].forEach((test) => {
             if (
                 mapArr[test] !== "c" &&
+                mapArr[test] !== "w" &&
                 blankIndices.indexOf(test) === -1 &&
                 test < height * width &&
                 test >= 0

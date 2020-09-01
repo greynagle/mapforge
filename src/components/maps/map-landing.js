@@ -15,8 +15,8 @@ export default class Maps extends Component {
                 <p className="info">
                     Set your grid size and click "Random." You can then use the
                     sliders to adjust the map. Click on tiles to cycle through
-                    the different types. Be sure to save the map when you're
-                    happy with it!
+                    the different types. Check the fix boxes to freeze the
+                    sliders. Be sure to save the map when you're happy with it!
                 </p>
                 <MapGrid />
             </div>

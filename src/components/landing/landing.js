@@ -11,14 +11,6 @@ export default class Landing extends React.Component {
                 time developing stories. Select "Map" above and start building.
                 If you are a first-time visitor, be sure to register an account
                 so you can save your creations.
-                <br />
-				__________________________________________________
-                <br />
-				Sample login
-                <br />
-				Username: naglegrey
-                <br />
-				Password: Passw0rd!
             </p>
         );
     }

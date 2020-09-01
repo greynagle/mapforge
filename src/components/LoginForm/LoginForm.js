@@ -12,15 +12,15 @@ export default class LoginForm extends Component {
 
     handleSubmitJwtAuth = (ev) => {
         ev.preventDefault();
-		this.setState({ error: null });
-		const { user_name, password } = ev.target;
+        this.setState({ error: null });
+        const { user_name, password } = ev.target;
 
         AuthApiService.postLogin({
             user_name: user_name.value,
             password: password.value,
         })
             .then((res) => {
-				user_name.value = "";
+                user_name.value = "";
                 password.value = "";
                 TokenService.saveAuthToken(res.authToken);
                 this.props.onLoginSuccess();
@@ -43,7 +43,7 @@ export default class LoginForm extends Component {
                         required
                         name="user_name"
                         id="LoginForm__user_name"
-						autoComplete='off'
+                        autoComplete="off"
                     ></Input>
                 </div>
                 <div className="password">
@@ -58,6 +58,13 @@ export default class LoginForm extends Component {
                 <button type="submit" className="btn btn-secondary">
                     Login
                 </button>
+                <br />
+                <br />
+                Sample login
+                <br />
+                Username: naglegrey
+                <br />
+                Password: Passw0rd!
             </form>
         );
     }

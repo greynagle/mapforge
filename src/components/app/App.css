@@ -142,15 +142,15 @@ td {
 
 li.account-link {
     display: flex;
-	justify-content: space-around;
-	align-items: center;
+    justify-content: space-around;
+    align-items: center;
     border: 1px solid black;
     border-radius: 0.25rem;
-	height:40px;
-	margin-bottom:1rem;
+    height: 40px;
+    margin-bottom: 1rem;
 }
-li.account-link>a{
-	width:50px;
+li.account-link > a {
+    width: 50px;
 }
 
 li.account-link > button.btn {
@@ -356,6 +356,14 @@ li.account-link > button.btn {
         padding-right: 20vw;
     }
 
+    div.sliderSet {
+        width:450px;
+		margin-left:auto;
+		margin-right:auto;
+		display: flex;
+        justify-content: space-evenly;
+    }
+
     span.sliderBox {
         display: flex;
         justify-content: space-evenly;
@@ -368,18 +376,24 @@ li.account-link > button.btn {
         padding-right: 15vw;
     }
 
+	.Input{
+		width:400px;
+	}
+
     div.nav_link > ul {
         padding-left: 20vw;
         padding-right: 20vw;
     }
 
     p.landing {
+        width: 700px;
+        margin-left: auto;
+        margin-right: auto;
         padding-top: 5vh;
     }
 
     p.info {
-        padding-left: 15vw;
-        padding-right: 15vw;
+		width:500px;
     }
 }
 
