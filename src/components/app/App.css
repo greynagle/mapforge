@@ -141,6 +141,9 @@ td {
 }
 
 li.account-link {
+	width:250px;
+	margin-left:auto;
+	margin-right:auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
