@@ -1,6 +1,6 @@
 MapForge
 
-Live link: https://mapforge-7962ukihf.vercel.app/
+Live link: https://mapforge.vercel.app/
 
 API repo: https://github.com/greynagle/mapforge-api
 
